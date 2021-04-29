@@ -1,0 +1,42 @@
+﻿  main.cpp
+C:\Users\David\source\repos\CellularAutomata\main.cpp(44,66): warning C4244: 'argument': conversion from 'size_t' to 'T', possible loss of data
+          with
+          [
+              T=float
+          ]
+C:\Users\David\source\repos\CellularAutomata\main.cpp(44,63): warning C4244: 'argument': conversion from 'size_t' to 'T', possible loss of data
+          with
+          [
+              T=float
+          ]
+C:\Users\David\source\repos\CellularAutomata\main.cpp(100,112): warning C4244: 'argument': conversion from 'int' to 'T', possible loss of data
+          with
+          [
+              T=float
+          ]
+C:\Users\David\source\repos\CellularAutomata\main.cpp(100,91): warning C4244: 'argument': conversion from 'int' to 'T', possible loss of data
+          with
+          [
+              T=float
+          ]
+C:\Users\David\source\repos\CellularAutomata\main.cpp(101,93): warning C4244: 'argument': conversion from 'T' to 'T', possible loss of data
+          with
+          [
+              T=int
+          ]
+          and
+          [
+              T=float
+          ]
+C:\Users\David\source\repos\CellularAutomata\main.cpp(101,85): warning C4244: 'argument': conversion from 'T' to 'T', possible loss of data
+          with
+          [
+              T=int
+          ]
+          and
+          [
+              T=float
+          ]
+C:\Users\David\source\repos\CellularAutomata\main.cpp(155,28): warning C4018: '<': signed/unsigned mismatch
+C:\Users\David\source\repos\CellularAutomata\main.cpp(215,28): warning C4018: '<': signed/unsigned mismatch
+  CellularAutomata.vcxproj -> C:\Users\David\source\repos\Circuit\Debug\CellularAutomata.exe
