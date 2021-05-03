@@ -1,34 +1,25 @@
 ﻿  main.cpp
-C:\Users\David\source\repos\CellularAutomata\main.cpp(50,66): warning C4244: 'argument': conversion from 'size_t' to 'T', possible loss of data
+C:\Users\David\source\repos\CellularAutomata\main.cpp(53,66): warning C4244: 'argument': conversion from 'size_t' to 'T', possible loss of data
           with
           [
               T=float
           ]
-C:\Users\David\source\repos\CellularAutomata\main.cpp(50,63): warning C4244: 'argument': conversion from 'size_t' to 'T', possible loss of data
+C:\Users\David\source\repos\CellularAutomata\main.cpp(53,63): warning C4244: 'argument': conversion from 'size_t' to 'T', possible loss of data
           with
           [
               T=float
           ]
-C:\Users\David\source\repos\CellularAutomata\main.cpp(121,112): warning C4244: 'argument': conversion from 'int' to 'T', possible loss of data
+C:\Users\David\source\repos\CellularAutomata\main.cpp(131,112): warning C4244: 'argument': conversion from 'int' to 'T', possible loss of data
           with
           [
               T=float
           ]
-C:\Users\David\source\repos\CellularAutomata\main.cpp(121,91): warning C4244: 'argument': conversion from 'int' to 'T', possible loss of data
+C:\Users\David\source\repos\CellularAutomata\main.cpp(131,91): warning C4244: 'argument': conversion from 'int' to 'T', possible loss of data
           with
           [
               T=float
           ]
-C:\Users\David\source\repos\CellularAutomata\main.cpp(122,93): warning C4244: 'argument': conversion from 'T' to 'T', possible loss of data
-          with
-          [
-              T=int
-          ]
-          and
-          [
-              T=float
-          ]
-C:\Users\David\source\repos\CellularAutomata\main.cpp(122,85): warning C4244: 'argument': conversion from 'T' to 'T', possible loss of data
+C:\Users\David\source\repos\CellularAutomata\main.cpp(132,93): warning C4244: 'argument': conversion from 'T' to 'T', possible loss of data
           with
           [
               T=int
@@ -37,6 +28,15 @@ C:\Users\David\source\repos\CellularAutomata\main.cpp(122,85): warning C4244: 'a
           [
               T=float
           ]
-C:\Users\David\source\repos\CellularAutomata\main.cpp(187,28): warning C4018: '<': signed/unsigned mismatch
-C:\Users\David\source\repos\CellularAutomata\main.cpp(247,28): warning C4018: '<': signed/unsigned mismatch
+C:\Users\David\source\repos\CellularAutomata\main.cpp(132,85): warning C4244: 'argument': conversion from 'T' to 'T', possible loss of data
+          with
+          [
+              T=int
+          ]
+          and
+          [
+              T=float
+          ]
+C:\Users\David\source\repos\CellularAutomata\main.cpp(181,28): warning C4018: '<': signed/unsigned mismatch
+C:\Users\David\source\repos\CellularAutomata\main.cpp(241,28): warning C4018: '<': signed/unsigned mismatch
   CellularAutomata.vcxproj -> C:\Users\David\source\repos\Circuit\Debug\CellularAutomata.exe

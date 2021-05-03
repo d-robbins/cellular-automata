@@ -10,8 +10,6 @@ const int CELL_H = 10;
 const int WINDOW_W = 1280;
 const int WINDOW_H = 720;
 
-const bool G_O_L = true;
-
 struct Tile
 {
     Tile(const sf::Vector2f& pos);
@@ -20,17 +18,31 @@ struct Tile
     bool mNext = false;
 };
 
-void DrawTiles(std::vector<std::vector<std::shared_ptr<Tile>>>& tiles, sf::RenderWindow& window);
-void Generate30(std::vector<std::vector<std::shared_ptr<Tile>>>& tiles, const int& currentColumn);
-void Generate110(std::vector<std::vector<std::shared_ptr<Tile>>>& tiles, const int& currentColumn);
-void RandomizeRow(std::vector<std::vector<std::shared_ptr<Tile>>>& tiles, const int& row);
+struct CellularAutomata
+{
+    void operator()(std::vector<std::vector<std::shared_ptr<Tile>>>&)
+    {
+
+    }
+};
+
+void Generate30(std::vector<std::vector<std::shared_ptr<Tile>>>& tiles, const int& row);
+void Generate110(std::vector<std::vector<std::shared_ptr<Tile>>>& tiles, const int& row);
 void GameOfLife(std::vector<std::vector<std::shared_ptr<Tile>>>& tiles);
+
+void DrawTiles(std::vector<std::vector<std::shared_ptr<Tile>>>& tiles, sf::RenderWindow& window);
 int NeighborsAlive(std::vector<std::vector<std::shared_ptr<Tile>>>& tiles, const int& row, const int& col);
 void Reset(std::vector<std::vector<std::shared_ptr<Tile>>>& tiles);
+
+void RandomizeRow(std::vector<std::vector<std::shared_ptr<Tile>>>& tiles, const int& row);
 void RandomizeSheet(std::vector<std::vector<std::shared_ptr<Tile>>>& tiles);
 
 int main()
 {
+    // Play game of life
+    bool G_O_L = true;
+
+
     srand((unsigned)time(0));
     sf::RenderWindow window(sf::VideoMode(WINDOW_W, WINDOW_H), "Cellular Automata");
 
@@ -38,9 +50,11 @@ int main()
     window.setFramerateLimit(60);
 
     const auto white = sf::Color(255, 255, 255, 255);
-
+    
+    // Board
     std::vector<std::vector<std::shared_ptr<Tile>>> tiles;
     
+    // Create all the tiles
     for (size_t i = 0; i < WINDOW_H; i += CELL_H)
     {
         std::vector<std::shared_ptr<Tile>> row;
@@ -53,10 +67,19 @@ int main()
         tiles.push_back(row);
     }
     
-    RandomizeSheet(tiles);
+    // If playing game of life, randomize entire board. If else, just the first row
+    if (G_O_L)
+    {
+        RandomizeSheet(tiles);
+    }
+    else
+    {
+        RandomizeRow(tiles, 0);
+    }
 
     int row = 0;
     int generation = 0;
+ 
     while (window.isOpen())
     {
         sf::Event event;
@@ -72,28 +95,34 @@ int main()
                     row = 0;
                     RandomizeRow(tiles, 0);
                 }
-
                 else if (event.key.code == sf::Keyboard::Q)
                 {
+                    G_O_L = false;
                     Generate110(tiles, row);
                     row++;
                 }
                 else if (event.key.code == sf::Keyboard::W)
                 {
+                    G_O_L = false;
                     Generate30(tiles, row);
                     row++;
                 }
                 else if (event.key.code == sf::Keyboard::R)
                 {
                     Reset(tiles);
-                    
+                    row = 0;
                     if (G_O_L)
                     {
                         RandomizeSheet(tiles);
                     }
+                    else
+                    {
+                        RandomizeRow(tiles, 0);
+                    }
                 }
                 else if (event.key.code == sf::Keyboard::G)
                 {
+                    G_O_L = true;
                     GameOfLife(tiles);
                     generation++;
 
@@ -105,6 +134,10 @@ int main()
                         }
                     }
                 }
+                else if (event.key.code == sf::Keyboard::C)
+                {
+                    Reset(tiles);
+                }
                 else if (event.key.code == sf::Keyboard::Escape)
                 {
                     window.close();
@@ -112,8 +145,6 @@ int main()
             }
             if (event.type == sf::Event::MouseButtonPressed)
             {
-
-
                 for (auto &row : tiles)
                 {
                     for (auto &col : row)
@@ -128,25 +159,9 @@ int main()
             }
         }
 
-        GameOfLife(tiles);
-        generation++;
-
-        for (auto row : tiles)
-        {
-            for (auto col : row)
-            {
-                col->mAlive = col->mNext;
-            }
-        }
-
-        sf::sleep(sf::Time(sf::seconds(0.5f)));
-
-
         window.clear(white);
         DrawTiles(tiles, window);
         window.display();
-
-        
     }
 
 	
@@ -306,7 +321,7 @@ void RandomizeRow(std::vector<std::vector<std::shared_ptr<Tile>>>& tiles, const 
 {
     for (size_t j = 0; j < (WINDOW_W / CELL_W) ; j++)
     {
-        auto n = (rand() % 100) ;
+        auto n = (rand() % 100);
         (n % 2 == 0) ? tiles[row][j]->mAlive = true : tiles[row][j]->mAlive = false;
     }
     
@@ -335,6 +350,13 @@ void GameOfLife(std::vector<std::vector<std::shared_ptr<Tile>>>& tiles)
     }
 }
 
+/// <summary>
+/// Check the 8 neighboring tiles
+/// </summary>
+/// <param name="tiles">nxm sheet of tiles</param>
+/// <param name="row"> to check</param>
+/// <param name="col"> to check</param>
+/// <returns>sum of all alive tiles</returns>
 int NeighborsAlive(std::vector<std::vector<std::shared_ptr<Tile>>>& tiles, const int& row, const int& col)
 {   
     int total = 0;
@@ -345,82 +367,45 @@ int NeighborsAlive(std::vector<std::vector<std::shared_ptr<Tile>>>& tiles, const
         t = row - 1;
         b = row + 1;
         l = col - 1;
-        r = col + 1;
+        r = col + 1; 
     }
 
-    if (row == 0)
-    {
-        t = (WINDOW_H / CELL_H) - 1;
-    }
+    if (row == 0) { t = (WINDOW_H / CELL_H) - 1; }
     
-    if (col == 0)
-    {
-        l = (WINDOW_W / CELL_W) - 1;
-    }
+    if (col == 0) { l = (WINDOW_W / CELL_W) - 1; }
 
-    if (row == (WINDOW_H / CELL_H) - 1)
-    {
-        b = 0;
-    }
+    if (row == (WINDOW_H / CELL_H) - 1) { b = 0; }
 
-    if (col == (WINDOW_W / CELL_W) - 1)
-    {
-        r = 0;
-    }
+    if (col == (WINDOW_W / CELL_W) - 1) { r = 0; }
     
     (t == -1) ? t = row - 1: 1;
     (b == -1) ? b = row + 1: 1;
     (l == -1) ? l = col - 1: 1;
     (r == -1) ? r = col + 1: 1;
 
-    if (tiles[row][r]->mAlive)
-    {
-        total++;
-    }
+    if (tiles[row][r]->mAlive) { total++; }
     
-    if(tiles[t][col]->mAlive)
-    {
-        total++;
-    }
+    if(tiles[t][col]->mAlive) { total++; }
     
-    if (tiles[t][r]->mAlive)
-    {
-        total++;
-    }
+    if (tiles[t][r]->mAlive) { total++; }
     
-    if (tiles[t][l]->mAlive)
-    {
-        total++;
-    }
+    if (tiles[t][l]->mAlive) { total++; }
     
-    if (tiles[row][l]->mAlive)
-    {
-        total++;
-    }
+    if (tiles[row][l]->mAlive) { total++; }
     
-    if (tiles[b][col]->mAlive)
-    {
-        total++;
-    }
+    if (tiles[b][col]->mAlive) { total++; }
     
-    if (tiles[b][r]->mAlive)
-    {
-        total++;
-    }
+    if (tiles[b][r]->mAlive) { total++; }
     
-    if (tiles[b][l]->mAlive)
-    {
-        total++;
-    }
-
-    if (total > 2)
-    {
-        std::cout << "" << std::endl;
-    }
+    if (tiles[b][l]->mAlive) { total++; }
 
     return total;
 }
 
+/// <summary>
+/// Reset the board to a blank screen
+/// </summary>
+/// <param name="tiles">nxm sheet of tiles</param>
 void Reset(std::vector<std::vector<std::shared_ptr<Tile>>>& tiles)
 {
     for (size_t i = 0; i < (WINDOW_H / CELL_H); i++)
@@ -432,13 +417,14 @@ void Reset(std::vector<std::vector<std::shared_ptr<Tile>>>& tiles)
     }
 }
 
+/// <summary>
+/// Randomize the entire sheet
+/// </summary>
+/// <param name="tiles">nxm sheet of tiles</param>
 void RandomizeSheet(std::vector<std::vector<std::shared_ptr<Tile>>>& tiles)
 {
     for (size_t i = 0; i < (WINDOW_H / CELL_H); i++)
     {
-        if (i % 2 == 0)
-        {
-            RandomizeRow(tiles, i);
-        }
+        RandomizeRow(tiles, i);
     }
 }
