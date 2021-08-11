@@ -12,4 +12,4 @@ Some simple cellular automata for fun
   G: Iterate game of life (can select tiles by clicking with mouse) \
   R: Reset
 
-Requires SFML to build
+Requires SFML
