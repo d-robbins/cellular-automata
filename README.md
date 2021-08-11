@@ -1,4 +1,4 @@
-# cellular_automata
+# Cellular Automata
 Some simple cellular automata for fun
 
 # Current support:
@@ -11,3 +11,5 @@ Some simple cellular automata for fun
   Q: Iterate rule 110 \
   G: Iterate game of life (can select tiles by clicking with mouse) \
   R: Reset
+
+Requires SFML to build
