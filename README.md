@@ -9,4 +9,5 @@ Some simple cellular automata for fun
 # Controls:
   W: Iterate rule 30 \
   Q: Iterate rule 110 \
-  G: Iterate game of life (can select tiles by clicking with mouse)
+  G: Iterate game of life (can select tiles by clicking with mouse) \
+  R: Reset
